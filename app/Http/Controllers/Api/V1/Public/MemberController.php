@@ -37,8 +37,10 @@ class MemberController extends Controller
             return [$member, $user];
         });
 
-        Auth::login($user);
-        $request->session()->regenerate();
+        if ($data['auto_login'] ?? false) {
+            Auth::login($user);
+            $request->session()->regenerate();
+        }
 
         return APIResponse::success(
             (new MemberResource($member))->resolve($request),

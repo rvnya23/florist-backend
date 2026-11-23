@@ -62,6 +62,10 @@ class ProductController extends Controller
 
     public function destroy(Product $product): JsonResponse
     {
+        if ($product->orderDetails()->exists()) {
+            return APIResponse::failed('Produk yang sudah masuk riwayat order tidak dapat dihapus.', status: 422);
+        }
+
         $image = $product->image;
         $product->delete();
         Storage::disk('public')->delete($image);

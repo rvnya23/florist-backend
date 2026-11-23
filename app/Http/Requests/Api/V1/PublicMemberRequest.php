@@ -19,6 +19,7 @@ class PublicMemberRequest extends FormRequest
             'phone' => ['required', 'string', 'max:255', 'unique:members,phone'],
             'address' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'auto_login' => ['sometimes', 'boolean'],
         ];
     }
 }

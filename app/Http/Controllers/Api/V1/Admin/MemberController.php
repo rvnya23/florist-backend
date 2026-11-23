@@ -48,6 +48,10 @@ class MemberController extends Controller
 
     public function destroy(Member $member): JsonResponse
     {
+        if ($member->orders()->exists()) {
+            return APIResponse::failed('Member yang memiliki riwayat order tidak dapat dihapus.', status: 422);
+        }
+
         $member->delete();
 
         return APIResponse::success(message: 'Member berhasil dihapus.');

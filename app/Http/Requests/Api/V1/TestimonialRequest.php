@@ -19,4 +19,16 @@ class TestimonialRequest extends FormRequest
             'message' => ['required', 'string'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $user = $this->user();
+
+        if ($user?->role === 'customer' && $user->member) {
+            $this->merge([
+                'name' => $user->member->name,
+                'email' => $user->member->email,
+            ]);
+        }
+    }
 }
